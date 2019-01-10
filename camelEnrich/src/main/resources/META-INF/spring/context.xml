@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <camelContext id="camelEnrich" xmlns="http://camel.apache.org/schema/spring">
+        <route id="_route1">
+            <from id="_from1" uri="timer:Test?period=100000"/>
+            <setBody id="_setBody1">
+                <simple>camel enricher</simple>
+            </setBody>
+            <log id="_log" message="Log:- calling enricher"/>
+            <enrich id="_enrich1">
+                <constant>direct:resource</constant>
+            </enrich>
+            <log id="_log3" message="Log3:- body after enricher"/>
+            <log id="_log1" message="Log1:- ${body}"/>
+        </route>
+        <route id="_route2">
+            <from id="_from2" uri="direct:resource"/>
+            <setBody id="_setBody2">
+                <simple>Hello ${body}</simple>
+            </setBody>
+            <log id="_log2" message="Log2:- ${body}"/>
+        </route>
+    </camelContext>
+</beans>

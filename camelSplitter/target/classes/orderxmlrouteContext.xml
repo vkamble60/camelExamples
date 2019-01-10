@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd         http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <camelContext id="camelContext-2c34d662-f8cc-4201-a7c3-8bc25e8cb01c" xmlns="http://camel.apache.org/schema/spring">
+        <route id="_route1">
+            <log id="_log1" message="starting Split by article Element"/>
+            <to id="_to1" uri="direct:start"/>
+            <log id="_log2" message="Split by article Element"/>
+            <split id="_split1">
+                <xpath>//order[@product='electronics']/items</xpath>
+                <log id="_log3" message="${body}"/>
+                <to id="_to2" uri="file:src/main/resources/orderxmlroute/"/>
+            </split>
+        </route>
+    </camelContext>
+</beans>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+    <camelContext id="camelEnrich" xmlns="http://camel.apache.org/schema/spring">
+        <route id="Camel-pollEnrich-Example">
+            <from id="_from1" uri="timer:Test?period=30000"/>
+            <log id="_log1" message="pollEnrich start"/>
+            <pollEnrich id="_pollEnrich1" timeout="3000">
+                <simple>file:Input</simple>
+            </pollEnrich>
+            <log id="_log4" message="pollEnrich done"/>
+            <choice id="_choice1">
+                <when id="_when1">
+                    <simple>${in.header[CamelFileLength]} &gt;= 0</simple>
+                    <log id="_log2" message="File Found: File Name ${in.header[CamelFileName]}"/>
+                </when>
+                <otherwise id="_otherwise1">
+                    <log id="_log2" message="####File not Found######"/>
+                </otherwise>
+            </choice>
+        </route>
+    </camelContext>
+</beans>
